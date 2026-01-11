@@ -10,7 +10,7 @@ PKG_LICENSE:=Apache-2.0
 PKG_MAINTAINER:=JohnsonRan <me@ihtw.moe>
 
 LUCI_TITLE:=Another LuCI app for dae
-LUCI_DEPENDS:=+duck
+LUCI_DEPENDS:=
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
