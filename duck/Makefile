@@ -45,22 +45,20 @@ define Package/duck
   $(call Package/duck/Default)
   TITLE:=A lightweight and high-performance transparent proxy solution
   # You need enable KERNEL_DEBUG_INFO_BTF and KERNEL_BPF_EVENTS
-  DEPENDS:=$(GO_ARCH_DEPENDS) $(BPF_DEPENDS)  \
-    +ca-bundle +kmod-sched-core +kmod-sched-bpf +kmod-xdp-sockets-diag \
-    +kmod-veth
+  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle \
 endef
 
 define Package/duck-geoip
   $(call Package/duck/Default)
   TITLE:=geoip for duck
-  DEPENDS:=+duck
+  DEPENDS:=
   PKGARCH:=all
 endef
 
 define Package/duck-geosite
   $(call Package/duck/Default)
   TITLE:=geosite for duck
-  DEPENDS:=+duck
+  DEPENDS:=
   PKGARCH:=all
 endef
 
