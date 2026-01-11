@@ -115,6 +115,16 @@ define Package/duck/install
 	$(INSTALL_BIN) $(CURDIR)/files/duck.init $(1)/etc/init.d/duck
 endef
 
+define Package/duck-geoip/install
+	$(INSTALL_DIR) $(1)/usr/share/dae
+	$(LN) ../v2ray/geoip.dat $(1)/usr/share/dae/geoip.dat
+endef
+
+define Package/duck-geosite/install
+	$(INSTALL_DIR) $(1)/usr/share/dae
+	$(LN) ../v2ray/geosite.dat $(1)/usr/share/dae/geosite.dat
+endef
+
 $(eval $(call GoBinPackage,duck))
 $(eval $(call BuildPackage,duck))
 $(eval $(call BuildPackage,duck-geoip))
