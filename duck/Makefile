@@ -50,20 +50,6 @@ define Package/duck
     +kmod-veth
 endef
 
-define Package/duck-geoip
-  $(call Package/duck/Default)
-  TITLE:=geoip for duck
-  DEPENDS:=+duck +v2ray-geoip
-  PKGARCH:=all
-endef
-
-define Package/duck-geosite
-  $(call Package/duck/Default)
-  TITLE:=geosite for duck
-  DEPENDS:=+duck +v2ray-geosite
-  PKGARCH:=all
-endef
-
 define Package/duck/description
   dae, means goose, is a lightweight and high-performance transparent
   proxy solution.
@@ -117,17 +103,5 @@ define Package/duck/install
 	$(INSTALL_BIN) $(CURDIR)/files/duck.init $(1)/etc/init.d/duck
 endef
 
-define Package/duck-geoip/install
-	$(INSTALL_DIR) $(1)/usr/share/dae
-	$(LN) ../v2ray/geoip.dat $(1)/usr/share/dae/geoip.dat
-endef
-
-define Package/duck-geosite/install
-	$(INSTALL_DIR) $(1)/usr/share/dae
-	$(LN) ../v2ray/geosite.dat $(1)/usr/share/dae/geosite.dat
-endef
-
 $(eval $(call GoBinPackage,duck))
 $(eval $(call BuildPackage,duck))
-$(eval $(call BuildPackage,duck-geoip))
-$(eval $(call BuildPackage,duck-geosite))
