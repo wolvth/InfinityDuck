@@ -5,13 +5,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=duck
-PKG_VERSION:=2025.09.27
+# 【修复1】APK 版本号必须用下划线分隔 rc，例如 1.1.0_rc1
+PKG_VERSION:=1.1.0_rc1
 PKG_RELEASE:=1
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/LostAttractor/dae.git
-PKG_SOURCE_VERSION:=5abd651d985309031bf99eafcaf0dcfc1e9551f3
-PKG_MIRROR_HASH:=skip
+# 【修复1】定义上游真实版本号（用于下载和内部版本显示）
+UPSTREAM_VERSION:=1.1.0rc1
+
+# 使用上游版本号下载
+PKG_SOURCE:=dae-full-src-$(UPSTREAM_VERSION).zip
+PKG_SOURCE_URL:=https://github.com/daeuniverse/dae/releases/download/v$(UPSTREAM_VERSION)/dae-full-src.zip?
+PKG_HASH:=skip
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILE:=LICENSE
@@ -30,6 +34,7 @@ GO_PKG_TAGS:=trace
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/bpf.mk
+#include ../../lang/golang/golang-package.mk
 include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
 UNZIP_CMD:=unzip -q -d $(PKG_BUILD_DIR) $(DL_DIR)/$(PKG_SOURCE)
@@ -38,14 +43,16 @@ define Package/duck/Default
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=Web Servers/Proxies
-  URL:=https://github.com/LostAttractor/dae
+  URL:=https://github.com/daeuniverse/dae
 endef
 
 define Package/duck
   $(call Package/duck/Default)
   TITLE:=A lightweight and high-performance transparent proxy solution
   # You need enable KERNEL_DEBUG_INFO_BTF and KERNEL_BPF_EVENTS
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle \
+  DEPENDS:=$(GO_ARCH_DEPENDS) $(BPF_DEPENDS)  \
+    +ca-bundle +kmod-sched-core +kmod-sched-bpf +kmod-xdp-sockets-diag \
+    +kmod-veth
 endef
 
 define Package/duck-geoip
